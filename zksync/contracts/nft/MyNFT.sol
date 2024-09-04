@@ -13,6 +13,7 @@ import "@openzeppelin/contracts/utils/Counters.sol";
  */
 contract MyNFT is ERC721Enumerable, Ownable {
     using Counters for Counters.Counter;
+
     Counters.Counter private _tokenIdTracker;
     string private _baseTokenURI;
 
@@ -34,6 +35,11 @@ contract MyNFT is ERC721Enumerable, Ownable {
         _mint(to, _tokenIdTracker.current());
     }
 
-
-    // Additional functions or overrides can be added here if needed.
+    /**
+     * @dev Claims a new token
+     */
+    function claim() external {
+        _tokenIdTracker.increment();
+        _mint(_msgSender(), _tokenIdTracker.current());
+    }
 }

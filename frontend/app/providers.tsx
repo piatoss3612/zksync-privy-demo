@@ -5,7 +5,6 @@ import { PrivyProvider, PrivyProviderProps } from "@privy-io/react-auth";
 import { ChakraProvider } from "@chakra-ui/react";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { zksyncSepoliaTestnet } from "viem/zksync";
-import { ZkSyncClientProvider } from "@/context/ZKsyncClient";
 
 const PrivyAppId = process.env.NEXT_PUBLIC_PRIVY_APP_ID || "";
 const PrivyConfig: PrivyProviderProps["config"] = {
@@ -29,11 +28,9 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
   return (
     <PrivyProvider appId={PrivyAppId} config={PrivyConfig}>
       <ChakraProvider>
-        <ZkSyncClientProvider>
-          <QueryClientProvider client={queryClient}>
-            {mounted && children}
-          </QueryClientProvider>
-        </ZkSyncClientProvider>
+        <QueryClientProvider client={queryClient}>
+          {mounted && children}
+        </QueryClientProvider>
       </ChakraProvider>
     </PrivyProvider>
   );
