@@ -1,0 +1,12 @@
+{
+    "name": "zksync-privy-demo",
+    "version": "1.0.0",
+    "repository": "git@github.com:piatoss3612/zksync-privy-demo.git",
+    "author": "piatoss <piatoss3612@gmail.com>",
+    "license": "MIT",
+    "private": true,
+    "workspaces": [
+        "frontend",
+        "zksync"
+    ]
+}
