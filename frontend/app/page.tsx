@@ -17,6 +17,7 @@ export default function Home() {
 
   const [txStatus, setTxStatus] = useState<string>("");
   const [txHash, setTxHash] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
   // ====== ETH balance ======
 
@@ -48,6 +49,7 @@ export default function Home() {
     }
 
     const account = wallet.address as `0x${string}`;
+
     return await publicClient.readContract({
       address: MY_NFT_ADDRESS,
       abi: MY_NFT_ABI,
@@ -72,12 +74,6 @@ export default function Home() {
         throw new Error("Wallet or wallet client not initialized");
       }
 
-      const client = await walletClient;
-
-      if (!client) {
-        throw new Error("Error!");
-      }
-
       const account = wallet.address as `0x${string}`;
 
       const data = encodeFunctionData({
@@ -91,14 +87,13 @@ export default function Home() {
         data,
       });
 
-      const hash = await client.writeContract({
+      const hash = await walletClient.sendTransaction({
         account,
-        address: MY_NFT_ADDRESS,
-        abi: MY_NFT_ABI,
+        to: MY_NFT_ADDRESS,
+        data,
         gas: estimatedFee.gasLimit,
         maxFeePerGas: estimatedFee.maxFeePerGas,
         maxPriorityFeePerGas: estimatedFee.maxPriorityFeePerGas,
-        functionName: "claim",
         chain: zksyncSepoliaTestnet,
       });
 
@@ -106,10 +101,11 @@ export default function Home() {
 
       setTxHash(hash);
       setTxStatus(receipt.status);
+      setErrorMessage("");
     } catch (error) {
-      console.error(error);
+      const message = error instanceof Error ? error.message : "Unknown error";
       setTxHash("");
-      setTxStatus("error");
+      setErrorMessage(message);
     }
   };
 
@@ -154,6 +150,7 @@ export default function Home() {
                   <Text>Transaction Status: {txStatus}</Text>
                 </VStack>
               )}
+              {errorMessage && <Text color="red.500">{errorMessage}</Text>}
             </VStack>
           )}
         </VStack>

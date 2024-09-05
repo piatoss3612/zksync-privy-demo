@@ -23,7 +23,7 @@ const useZKsync = () => {
     return createPublicClient({
       chain: zksyncSepoliaTestnet,
       transport: http(),
-    }).extend(publicActionsL2());
+    }).extend(publicActionsL2()); // Extend the client with public actions for L2
   }, []);
 
   const walletClient = useMemo(() => {
