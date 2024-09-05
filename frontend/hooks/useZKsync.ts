@@ -4,7 +4,7 @@ import {
   usePrivy,
   useWallets,
 } from "@privy-io/react-auth";
-import { useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { createPublicClient, createWalletClient, custom, http } from "viem";
 import {
   eip712WalletActions,
